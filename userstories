@@ -41,12 +41,12 @@ Feature IRB:
   oystercard.balance # 10
   oystercard.deduct(2)
   oystercard.balance # 8
-
+  -----
   In order to get through the barriers.
   As a customer
   I need to touch in and out.
 
-  Feature IRB:
+Feature IRB:
   oystercard = Class.new
   oystercard.top_up(10)
   oystercard.balance # 10
@@ -55,13 +55,25 @@ Feature IRB:
   oystercard.in_journey? # true
   oystercard.touch_out
   oystercard.in_journey? # false
-
+  -----
   In order to pay for my journey
   As a customer
   I need to have the minimum amount (£1) for a single journey.
 
-  Feature IRB:
-
+Feature IRB:
   oystercard = Class.new
   oystercard.balance # 0
   oystercard.touch_in # "Need a min balance of £1 to make a journey"
+  -----
+  In order to pay for my journey
+  As a customer
+  When my journey is complete, I need the correct amount deducted from my card
+
+Feature IRB:
+  oystercard = Class.new
+  oystercard.balance # 10
+  oystercard.touch_in
+  oystercard.touch_out
+  #private method deduct(2) triggers
+  oystercard.balance # 8
+  -----

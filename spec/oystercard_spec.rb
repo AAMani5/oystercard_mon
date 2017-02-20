@@ -18,9 +18,9 @@ context "#top_up" do
   end
 end
 
-    it "deducts fare from a customers' balance" do
-        expect{my_oyster.deduct(top_up_amount)}.to change{my_oyster.balance}.by -top_up_amount
-    end
+    # it "deducts fare from a customers' balance" do
+    #     expect{my_oyster.balance(top_up_amount)}.to change{my_oyster.balance}.by -top_up_amount
+    # end
 
     it "initially not to be in journey" do
       is_expected.to_not be_in_journey
@@ -37,6 +37,12 @@ end
       my_oyster.touch_in
       my_oyster.touch_out
       expect(my_oyster.in_journey?).to be false
+    end
+
+    it "checks that touching out reduces balance by the correct amount" do
+        my_oyster.top_up(top_up_amount)
+        my_oyster.touch_in
+        expect{my_oyster.touch_out}.to change{my_oyster.balance}.by -2 #let fare
     end
 
     it "should not allow a journey, if balance is below min" do
