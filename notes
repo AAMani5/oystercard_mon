@@ -1,0 +1,12 @@
+Type of error: (NameError)
+Path: Users/alicearmstrong/Desktop/github/oystercard_mon/spec/oystercard_spec.rb
+Line: :1
+
+
+In order to use public transport
+As a customer
+I want money on my card
+
+Feature IRB;
+  oystercard = Class.new
+  oystercard.balance
