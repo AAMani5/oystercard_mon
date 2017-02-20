@@ -55,3 +55,13 @@ Feature IRB:
   oystercard.in_journey? # true
   oystercard.touch_out
   oystercard.in_journey? # false
+
+  In order to pay for my journey
+  As a customer
+  I need to have the minimum amount (£1) for a single journey.
+
+  Feature IRB:
+
+  oystercard = Class.new
+  oystercard.balance # 0
+  oystercard.touch_in # "Need a min balance of £1 to make a journey"

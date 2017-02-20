@@ -1,6 +1,7 @@
 class Oystercard
   attr_accessor :balance, :in_journey
   MAX_LIMIT = 90
+  MIN_LIMIT = 1
 
   def initialize
     @balance = 0
@@ -17,6 +18,7 @@ class Oystercard
   end
 
   def touch_in
+    raise "Your balance is #{balance}, which is below #{MIN_LIMIT}" if balance < MIN_LIMIT
     self.in_journey = true
   end
 
