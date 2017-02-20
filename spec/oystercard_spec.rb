@@ -7,7 +7,6 @@ describe Oystercard do
     end
 
     it "allows a customer to top-up" do
-      my_oyster.top_up(10)
-      expect(my_oyster.balance).to eq 10
+      expect{my_oyster.top_up(10)}.to change{my_oyster.balance}.by 10
     end
 end
