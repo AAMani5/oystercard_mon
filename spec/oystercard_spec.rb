@@ -18,6 +18,10 @@ describe Oystercard do
         expect{my_oyster.deduct(10)}.to change{my_oyster.balance}.by -10
     end
 
+    it "initially not to be in journey" do
+      is_expected.to_not be_in_journey
+    end
+
     it "updated my card status when i touch in" do
       my_oyster.touch_in
       expect(my_oyster.in_journey?).to be true
