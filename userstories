@@ -41,3 +41,17 @@ Feature IRB:
   oystercard.balance # 10
   oystercard.deduct(2)
   oystercard.balance # 8
+
+  In order to get through the barriers.
+  As a customer
+  I need to touch in and out.
+
+  Feature IRB:
+  oystercard = Class.new
+  oystercard.top_up(10)
+  oystercard.balance # 10
+  oystercard.in_journey? # false
+  oystercard.touch_in
+  oystercard.in_journey? # true
+  oystercard.touch_out
+  oystercard.in_journey? # false
