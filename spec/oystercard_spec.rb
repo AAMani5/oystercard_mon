@@ -4,9 +4,10 @@ describe Oystercard do
 
   let(:my_oyster) {Oystercard.new}
   let(:top_up_amount) {10}
+  let (:initial_balance) {0}
 
   it "check to see if card has a balance" do
-    expect(my_oyster.balance).to eq 0
+    expect(my_oyster.balance).to eq initial_balance
   end
 context "#top_up" do
   it "allows a customer to top-up" do
@@ -42,7 +43,7 @@ end
     it "checks that touching out reduces balance by the correct amount" do
         my_oyster.top_up(top_up_amount)
         my_oyster.touch_in
-        expect{my_oyster.touch_out}.to change{my_oyster.balance}.by -2 #let fare
+        expect{my_oyster.touch_out}.to change{my_oyster.balance}.by -Oystercard::FARE #let fare
     end
 
     it "should not allow a journey, if balance is below min" do

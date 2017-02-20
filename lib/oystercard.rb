@@ -2,7 +2,8 @@ class Oystercard
   attr_accessor :balance, :in_journey
   MAX_LIMIT = 90
   MIN_LIMIT = 1
-# create default fare
+  FARE = 2
+
   def initialize
     @balance = 0
     @in_journey = false
@@ -20,7 +21,7 @@ class Oystercard
 
   def touch_out
     self.in_journey = false
-    deduct(2)
+    deduct(FARE)
   end
 
   def in_journey?
