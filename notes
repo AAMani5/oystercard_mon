@@ -3,10 +3,20 @@ Path: Users/alicearmstrong/Desktop/github/oystercard_mon/spec/oystercard_spec.rb
 Line: :1
 
 
-In order to use public transport
-As a customer
-I want money on my card
+  In order to use public transport
+  As a customer
+  I want money on my card
 
 Feature IRB;
   oystercard = Class.new
   oystercard.balance
+
+  In order to keep using public transport
+  As a customer
+  I want to add money to my card
+
+Feature IRB:
+  oystercard = Class.new
+  oystercard.balance # 0
+  oystercard.top_up(10)
+  oystercard.balance # 10
