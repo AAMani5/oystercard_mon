@@ -52,20 +52,41 @@ describe Oystercard do
       expect{my_oyster.touch_in(station)}.to raise_error("Your balance is #{my_oyster.balance}, which is below #{Oystercard::MIN_LIMIT}")
     end
 
-    it 'stores the entry station' do
-      my_oyster.top_up(top_up_amount)
-      my_oyster.touch_in(station)
-      expect(my_oyster.entry_station).to eq station
-    end
-
     let(:entry_station) { double :station }
     let(:exit_station) { double :station }
 
-    it 'stores exit station' do
+    it 'has an empty list of journeys by default' do
+      expect(my_oyster.journeys).to be_empty
+    end
+
+    let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
+
+    it 'stores a journey' do
       my_oyster.top_up(top_up_amount)
       my_oyster.touch_in(entry_station)
       my_oyster.touch_out(exit_station)
-      expect(my_oyster.exit_station).to eq exit_station
+      expect(my_oyster.journeys.last.entry_station).to eq entry_station
+      expect(my_oyster.journeys.last.exit_station).to eq exit_station
+    end
+
+    it "creates  journey when touched in & stores it in an attribute" do
+      my_oyster.top_up(top_up_amount)
+      my_oyster.touch_in(entry_station)
+      expect(my_oyster.journey.entry_station).to eq entry_station
+      my_oyster.touch_out(exit_station)
+      expect(my_oyster.journey.exit_station).to eq exit_station
+    end
+
+    it "no touch in, but touched out" do
+      my_oyster.top_up(top_up_amount)
+      expect{my_oyster.touch_out(exit_station)}. to change{my_oyster.balance}.by(-Journey::PENALTY_FARE)
+    end
+
+    it "no touch out, but touched in" do
+      my_oyster.top_up(top_up_amount)
+      my_oyster.touch_in(entry_station)
+      expect{my_oyster.touch_in(entry_station)}.to change{my_oyster.balance}.by(-Journey::PENALTY_FARE)
+
     end
 
 end
