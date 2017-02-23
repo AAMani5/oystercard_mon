@@ -6,8 +6,13 @@ class JourneyLog
   end
 
   def start(entry_station)
-    journey = journey_class.new(entry_station: entry_station)
-    journeys_log << journey
+    @current_journey = journey_class.new(entry_station: entry_station)
+    journeys_log << @current_journey
+  end
+
+  def finish(exit_station)
+    current_journey.finish(exit_station)
+    @current_journey = nil
   end
 
   def journeys
@@ -16,6 +21,7 @@ class JourneyLog
 
   private
   attr_reader :journeys_log, :journey_class
+
   def current_journey
     @current_journey ||= journey_class.new
   end
