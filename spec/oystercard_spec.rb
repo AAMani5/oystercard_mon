@@ -5,19 +5,21 @@ describe Oystercard do
   let(:my_oyster) {Oystercard.new}
   let(:top_up_amount) {10}
   let (:initial_balance) {0}
+  let(:station){ double :station }
 
   it "check to see if card has a balance" do
     expect(my_oyster.balance).to eq initial_balance
   end
-context "#top_up" do
-  it "allows a customer to top-up" do
-    expect{my_oyster.top_up(top_up_amount)}.to change{my_oyster.balance}.by top_up_amount
-  end
 
-  it "raises error when top-would would make balance exceed £90" do
-    expect{my_oyster.top_up(Oystercard::MAX_LIMIT + 1)}.to raise_error "Balance cannot exceed £#{Oystercard::MAX_LIMIT}. Current balance is £#{my_oyster.balance}."
+  context "#top_up" do
+    it "allows a customer to top-up" do
+      expect{my_oyster.top_up(top_up_amount)}.to change{my_oyster.balance}.by top_up_amount
+    end
+
+    it "raises error when top-would would make balance exceed £90" do
+      expect{my_oyster.top_up(Oystercard::MAX_LIMIT + 1)}.to raise_error "Balance cannot exceed £#{Oystercard::MAX_LIMIT}. Current balance is £#{my_oyster.balance}."
+    end
   end
-end
 
     # it "deducts fare from a customers' balance" do
     #     expect{my_oyster.balance(top_up_amount)}.to change{my_oyster.balance}.by -top_up_amount
@@ -29,25 +31,41 @@ end
 
     it "updated my card status when i touch in" do
       my_oyster.top_up(top_up_amount)
-      my_oyster.touch_in
+      my_oyster.touch_in(station)
       expect(my_oyster.in_journey?).to be true
     end
 
     it "updates my card status when i touch out" do
       my_oyster.top_up(top_up_amount)
-      my_oyster.touch_in
-      my_oyster.touch_out
+      my_oyster.touch_in(station)
+      my_oyster.touch_out(station)
       expect(my_oyster.in_journey?).to be false
     end
 
     it "checks that touching out reduces balance by the correct amount" do
         my_oyster.top_up(top_up_amount)
-        my_oyster.touch_in
-        expect{my_oyster.touch_out}.to change{my_oyster.balance}.by -Oystercard::FARE #let fare
+        my_oyster.touch_in(station)
+        expect{my_oyster.touch_out(station)}.to change{my_oyster.balance}.by -Oystercard::MIN_FARE #let fare
     end
 
     it "should not allow a journey, if balance is below min" do
-      expect{my_oyster.touch_in}.to raise_error("Your balance is #{my_oyster.balance}, which is below #{Oystercard::MIN_LIMIT}")
+      expect{my_oyster.touch_in(station)}.to raise_error("Your balance is #{my_oyster.balance}, which is below #{Oystercard::MIN_LIMIT}")
+    end
+
+    it 'stores the entry station' do
+      my_oyster.top_up(top_up_amount)
+      my_oyster.touch_in(station)
+      expect(my_oyster.entry_station).to eq station
+    end
+
+    let(:entry_station) { double :station }
+    let(:exit_station) { double :station }
+
+    it 'stores exit station' do
+      my_oyster.top_up(top_up_amount)
+      my_oyster.touch_in(entry_station)
+      my_oyster.touch_out(exit_station)
+      expect(my_oyster.exit_station).to eq exit_station
     end
 
 end
