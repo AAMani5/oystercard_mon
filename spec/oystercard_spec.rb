@@ -56,7 +56,7 @@ describe Oystercard do
     let(:exit_station) { double :station }
 
     it 'has an empty list of journeys by default' do
-      expect(my_oyster.journeys).to be_empty
+      expect(my_oyster.journey_log.journeys).to be_empty
     end
 
     let(:journey){ {entry_station: entry_station, exit_station: exit_station} }
@@ -65,16 +65,16 @@ describe Oystercard do
       my_oyster.top_up(top_up_amount)
       my_oyster.touch_in(entry_station)
       my_oyster.touch_out(exit_station)
-      expect(my_oyster.journeys.last.entry_station).to eq entry_station
-      expect(my_oyster.journeys.last.exit_station).to eq exit_station
+      expect(my_oyster.journey_log.journeys.last.entry_station).to eq entry_station
+      expect(my_oyster.journey_log.journeys.last.exit_station).to eq exit_station
     end
 
-    it "creates  journey when touched in & stores it in an attribute" do
+    it "creates journey when touched in & stores it in an attribute" do
       my_oyster.top_up(top_up_amount)
       my_oyster.touch_in(entry_station)
-      expect(my_oyster.journey.entry_station).to eq entry_station
+      expect(my_oyster.journey_log.journeys.last.entry_station).to eq entry_station
       my_oyster.touch_out(exit_station)
-      expect(my_oyster.journey.exit_station).to eq exit_station
+      expect(my_oyster.journey_log.journeys.last.exit_station).to eq exit_station
     end
 
     it "no touch in, but touched out" do

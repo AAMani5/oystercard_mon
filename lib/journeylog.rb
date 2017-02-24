@@ -11,8 +11,9 @@ class JourneyLog
   end
 
   def finish(exit_station)
-    current_journey.finish(exit_station)
+    fare = current_journey.finish(exit_station).fare
     @current_journey = nil
+    fare
   end
 
   def journeys
