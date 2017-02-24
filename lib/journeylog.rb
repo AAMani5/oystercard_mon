@@ -12,6 +12,7 @@ class JourneyLog
 
   def finish(exit_station)
     fare = current_journey.finish(exit_station).fare
+    journeys_log << current_journey unless journeys_log.include? current_journey
     @current_journey = nil
     fare
   end

@@ -86,7 +86,19 @@ describe Oystercard do
       my_oyster.top_up(top_up_amount)
       my_oyster.touch_in(entry_station)
       expect{my_oyster.touch_in(entry_station)}.to change{my_oyster.balance}.by(-Journey::PENALTY_FARE)
+    end
 
+    it "shows the histor of journeys" do
+      my_oyster.top_up(50)
+      my_oyster.touch_in("WhiteChapel")
+      my_oyster.touch_out("Aldgate East")
+      my_oyster.touch_out("Bond Street")
+      my_oyster.touch_in("Stratford")
+      my_oyster.touch_out("Finchley Road")
+      my_oyster.touch_in("St.John's Wood")
+      my_oyster.touch_in("Bakers Street")
+      my_oyster.touch_out("Old Street")
+      p my_oyster.history
     end
 
 end

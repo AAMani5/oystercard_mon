@@ -7,7 +7,6 @@ class Journey
 
   def initialize(station = {})
     @entry_station = station[:entry_station]
-    @complete = false
   end
 
   def finish(exit_station)

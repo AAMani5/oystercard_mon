@@ -33,6 +33,10 @@ class Oystercard
     #!!entry_station
   end
 
+  def history
+    journey_log.journeys
+  end
+
 private
   def deduct(amount)
     @balance -= amount
