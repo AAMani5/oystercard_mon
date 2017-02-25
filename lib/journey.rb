@@ -15,11 +15,15 @@ class Journey
   end
 
   def fare
-    complete? ? Oystercard::MIN_FARE : PENALTY_FARE
+    complete? ? Oystercard::MIN_FARE + zone_difference : PENALTY_FARE
   end
 
   def complete?
     !!(exit_station) && !!(entry_station)
+  end
+
+  def zone_difference
+    (entry_station.zone - exit_station.zone).abs
   end
 
 end
